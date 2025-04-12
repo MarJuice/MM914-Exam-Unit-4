@@ -1,11 +1,8 @@
 import Game from './models/game.mjs';
 import './example.json' with { type: 'json' };
 
-const games = [];
-onload = () => {
-    games.push(loadLocal());
-    displayGames();
-}
+const games = loadLocal();
+displayGames();
 
 function saveLocal(game) {
     new Game(
@@ -48,7 +45,6 @@ document.getElementById('importSource').addEventListener('change', (event) => {
     if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
-            console.log(e.target.result);
             importGamesJSON(e.target.result);
         };
         reader.readAsText(file);
@@ -56,11 +52,10 @@ document.getElementById('importSource').addEventListener('change', (event) => {
 });
 
 function displayGames() {
-    const localGames = loadLocal();
     const gamesContainer = document.getElementById('gamesDisplay');
     gamesContainer.innerHTML = '';
 
-    localGames.forEach(game => {
+    games.forEach((game, index) => {
         const gameElement = document.createElement('div');
         gameElement.className = 'game-entry';
         gameElement.innerHTML = `
@@ -72,9 +67,39 @@ function displayGames() {
             <p>Publisher: ${game.publisher}</p>
             <p>BGG Listing: <a href="${game.url}" target="_blank">${game.url}</a></p>
             <br>
-            <p>Play Count: ${game.playCount} <button id="playCountIncrement">+</button></p>
-            <p>Personal Rating: <input type="range">${game.personalRating}</input></p>
+            <p>Play Count: <span class="playCount">${game.playCount}</span> 
+                <button class="playCountIncrement" data-game-index="${index}">+</button></p>
+            <p>Personal Rating: <input type="range" min="0" max="10" value="${game.personalRating}" class="ratingSlider" data-game-index="${index}">${game.personalRating}</input></p>
         `;
         gamesContainer.appendChild(gameElement);
-    })
+    });
+    document.querySelectorAll('.playCountIncrement').forEach(button => {
+        button.addEventListener('click', incrementPlayCount);
+    });
+
+    document.querySelectorAll('.ratingSlider').forEach(slider => {
+        slider.addEventListener('input', updateRating);
+    });
 }
+
+function incrementPlayCount(event) {
+    const index = event.target.getAttribute('data-game-index');
+
+    games[index].playCount++;
+
+    saveLocal(games[index]);
+
+    event.target.previousElementSibling.innerText = games[index].playCount;
+}
+
+function updateRating(event) {
+    const index = event.target.getAttribute('data-game-index');
+    const newRating = event.target.value;
+    
+    games[index].personalRating = newRating;
+        
+    saveLocal(games[index]);
+
+    event.target.nextElementSibling.innerText = newRating;
+}
+
