@@ -1,6 +1,13 @@
 import Game from './models/game.mjs';
 import './example.json' with { type: 'json' };
 
+const games = [];
+onload = () => {
+    loadLocal().forEach(game => {
+        games.push(game);
+    })
+}
+
 function saveLocal(game) {
     new Game(
         game.title,
@@ -30,12 +37,20 @@ function listGamesJSON() {
     return JSON.stringify(games, null, 2)
 }
 
-function importGamesJSON(file) {
-    fetch(file)
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(game => {
-                saveLocal(game);
-            });
+function importGamesJSON(data) {
+    JSON.parse(data).forEach(game => {
+        saveLocal(game);
         });
 }
+
+document.getElementById('importSource').addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            console.log(e.target.result);
+            importGamesJSON(e.target.result);
+        };
+        reader.readAsText(file);
+    }
+});
