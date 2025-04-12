@@ -3,9 +3,8 @@ import './example.json' with { type: 'json' };
 
 const games = [];
 onload = () => {
-    loadLocal().forEach(game => {
-        games.push(game);
-    })
+    games.push(loadLocal());
+    displayGames();
 }
 
 function saveLocal(game) {
@@ -23,6 +22,7 @@ function saveLocal(game) {
         game.personalRating
     );
     localStorage.setItem(game.title, JSON.stringify(game));
+    displayGames();
 }
 
 function loadLocal() {
@@ -54,3 +54,27 @@ document.getElementById('importSource').addEventListener('change', (event) => {
         reader.readAsText(file);
     }
 });
+
+function displayGames() {
+    const localGames = loadLocal();
+    const gamesContainer = document.getElementById('gamesDisplay');
+    gamesContainer.innerHTML = '';
+
+    localGames.forEach(game => {
+        const gameElement = document.createElement('div');
+        gameElement.className = 'game-entry';
+        gameElement.innerHTML = `
+            <h3>${game.title}</h3>
+            <p>Year: ${game.year} Players: ${game.players} Time: ${game.time} Difficulty: ${game.difficulty}</p>
+            <br>
+            <p>Designer: ${game.designer}</p>
+            <p>Artist: ${game.artist}</p>
+            <p>Publisher: ${game.publisher}</p>
+            <p>BGG Listing: <a href="${game.url}" target="_blank">${game.url}</a></p>
+            <br>
+            <p>Play Count: ${game.playCount} <button id="playCountIncrement">+</button></p>
+            <p>Personal Rating: <input type="range">${game.personalRating}</input></p>
+        `;
+        gamesContainer.appendChild(gameElement);
+    })
+}
