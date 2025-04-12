@@ -1,9 +1,40 @@
+* {
+    font-family: Cambria, Georgia, Times, serif;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2em;
+    margin: 20px 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 #gamesDisplay {
     display: flex;
     flex-direction: column;
+    width: max-content;
 }
 
 .game-entry {
-    border: 1px solid black;
     padding: 10px;
+    margin: 5px 0;
+    border: #333 dotted 2px;
+
+}
+
+input#importSource {
+    width: 500px;
+    margin: 10px 0;
+    justify-self: center;
+}
+
+a {
+    color: darkblue
 }
