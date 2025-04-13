@@ -44,3 +44,62 @@ input#importSource {
 a {
     color: darkblue
 }
+
+.removeButton {
+    border-radius: 50%;
+    background-color: lightcoral;
+    font-weight: bold;
+}
+.removeButton:hover {
+    background-color: red;
+    cursor: pointer;
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+button {
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: bold;
+    cursor:pointer;
+}
+
+#addGame {
+    background-color: lightgreen;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+#addGame:hover {
+    background-color: rgb(3, 226, 33);
+    color: white;
+    cursor: pointer;
+    outline: 1px solid black;
+}
+
+input.ratingSlider {
+    border-radius: 5px;
+    height: 15px;
+    outline: 1px solid black;
+    appearance: none;
+}
+
+button.playCountIncrement {
+    padding: 0px 6px;
+    border-radius: 50%;
+    font-size: large;
+}
+
+.sort-options {
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    align-items: center;
+    margin: 20px 0;
+}

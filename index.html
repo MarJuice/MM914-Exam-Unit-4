@@ -7,13 +7,26 @@
     <title>Game Record</title>
 </head>
 <body>
-    <div>
+    <div">
         <h1>Game Record</h1>
         <div id="header">
             <input type="file" id="importSource"></input>
             <button id="addGame">Add Game</button>
         </div>
         
+        <hr>
+        
+        <div class="sort-options">
+            <p>Sort By:</p>
+            <button data-sort="title">Title</button>
+            <button data-sort="players">Players</button>
+            <button data-sort="rating">Rating</button>
+            <button data-sort="difficulty">Difficulty</button>
+            <button data-sort="playCount">Play Count</button>
+        </div>
+        
+        <hr>
+
         <div id="gamesDisplay"></div>
     </div>
     <script src="/app.mjs" type="module"></script>
