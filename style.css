@@ -19,13 +19,14 @@ body {
 #gamesDisplay {
     display: flex;
     flex-direction: column;
-    width: max-content;
+    width: 100%;
 }
 
 .game-entry {
     padding: 10px;
     margin: 5px 0;
     border: #333 dotted 2px;
+    width: 100%;
 
 }
 
