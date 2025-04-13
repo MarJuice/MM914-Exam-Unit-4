@@ -1,7 +1,7 @@
 import Game from './models/game.mjs';
 import './example.json' with { type: 'json' };
 
-const games = loadLocal();
+let games = loadLocal();
 displayGames();
 
 function saveLocal(game) {
@@ -60,7 +60,7 @@ function displayGames() {
         const gameElement = document.createElement('div');
         gameElement.className = 'game-entry';
         gameElement.innerHTML = `
-            <h3>${game.title}</h3>
+            <h3>${game.title}<button class="removeButton" data-game-title="${game.title}">X</h3>
             <p>Year: ${game.year} Players: ${game.players} Time: ${game.time} Difficulty: ${game.difficulty}</p>
             <br>
             <p>Designer: ${game.designer}</p>
@@ -80,6 +80,13 @@ function displayGames() {
 
     document.querySelectorAll('.ratingSlider').forEach(slider => {
         slider.addEventListener('input', updateRating);
+    });
+
+    document.querySelectorAll('.removeButton').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const title = event.target.getAttribute('data-game-title');
+            removeGame(title);
+        });
     });
 }
 
@@ -156,3 +163,9 @@ document.getElementById('addGame').addEventListener('click', () => {
     });
 });
 
+function removeGame(title) {
+    games = games.filter(game => game.title != title);
+    localStorage.removeItem(title);
+
+    displayGames();
+}
